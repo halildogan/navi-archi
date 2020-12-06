@@ -1,0 +1,1 @@
+{"ast":null,"code":"export { default } from './Team';","map":{"version":3,"sources":["/Users/halildogan/Desktop/hd-dev.nosync/zer/zer.archi/components/Team/index.js"],"names":["default"],"mappings":"AAAA,SAASA,OAAT,QAAwB,QAAxB","sourcesContent":["export { default } from './Team';\n"]},"metadata":{},"sourceType":"module"}

@@ -1,0 +1,1 @@
+{"ast":null,"code":"var menu = ['home', 'services', 'project', 'about'];\nexport default menu;","map":null,"metadata":{},"sourceType":"module"}

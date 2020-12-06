@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="500px" height="474px" viewBox="0 0 500 474" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>download</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="download" fill-rule="nonzero">
+            <g id="Group">
+                <polygon id="Path" fill="#4CAF50" points="499.1 159.7 249.9 319.1 0.9 160.2 250.4 0.7"></polygon>
+                <g transform="translate(0.000000, 160.000000)" fill="#2E7D32" id="Path">
+                    <polygon points="250 263.8 0.6 84.9 0.9 0.3 250 160.5"></polygon>
+                    <polygon points="0.9 49.8 250 160.7 250 313.3 0.9 153.1"></polygon>
+                </g>
+                <g transform="translate(250.000000, 160.000000)" fill="#4CAF50" id="Path">
+                    <polygon points="249.4 49.8 0 228.7 0.3 313.3 249.4 153.1"></polygon>
+                    <polygon points="0.3 263.8 249.4 153 249.4 0.3 0.3 160.5"></polygon>
+                </g>
+            </g>
+            <g id="Group" fill="#FFFFFF" font-family="Mukta-Bold, Mukta" font-size="300" font-weight="bold">
+                <text id="Na">
+                    <tspan x="73.6" y="339">Na</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>
