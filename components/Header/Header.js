@@ -89,11 +89,6 @@ function Header(props) {
       >
         <Container fixed={!isMobile}>
           <Grid container>
-            <Grid item sm={2} xs={7}>
-              <div className={classes.logo}>
-              
-              </div>
-            </Grid>
             <Grid item sm={isTablet ? 10 : 9} xs={5}>
               <div className={classes.headerContent}>
                 <nav className={clsx(classes.navMenu, invert && classes.invert)}>
