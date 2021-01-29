@@ -89,6 +89,33 @@ function Header(props) {
       >
         <Container fixed={!isMobile}>
           <Grid container>
+            <Grid item sm={2} xs={7}>
+              <div className={classes.logo}>
+                { isMobile && (
+                  <IconButton
+                    onClick={handleOpenDrawer}
+                    className={clsx('hamburger hamburger--spring', classes.mobileMenu, openDrawer && 'is-active')}
+                  >
+                    <span className="hamburger-box">
+                      <span className={clsx(classes.bar, 'hamburger-inner')} />
+                    </span>
+                  </IconButton>
+                )}
+                {invert ? (
+                  <Link href="/">
+                    <a>
+                      <img src={logo} alt="logo" />
+                      {isDesktop && brand.architect.projectName}
+                    </a>
+                  </Link>
+                ) : (
+                  <AnchorLink href="#home">
+                    <img src={logo} alt="logo" />
+                    {isDesktop && brand.architect.projectName}
+                  </AnchorLink>
+                )}
+              </div>
+            </Grid>
             <Grid item sm={isTablet ? 10 : 9} xs={5}>
               <div className={classes.headerContent}>
                 <nav className={clsx(classes.navMenu, invert && classes.invert)}>
