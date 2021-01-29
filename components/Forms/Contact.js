@@ -35,7 +35,7 @@ import { withTranslation } from '../../i18n';
 import useStyles from './form-style';
 import CrossParallax from '../Parallax/Cross';
 import Title from '../Title';
-import CreateSupportController from "../../controller/support/CreateSupportController";
+import CreateMailController from "../../controller/mail/CreateMailController";
 
 
 function BubleMark() {
@@ -132,7 +132,7 @@ const initialState = {
 function Contact(props) {
   const classes = useStyles();
   const text = useText();
-  const { t } = props;
+  const { t, app } = props;
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [values, setValues] = useState(initialState);
@@ -156,7 +156,6 @@ function Contact(props) {
   const handleClose = () => {
     setNotif(false);
   };
-
   return (
     <div className={classes.pageWrap}>
       <Hidden mdDown>
@@ -199,9 +198,9 @@ function Contact(props) {
             </Hidden>
             <Paper className={clsx(classes.formBox, 'fragment-fadeUp')}>
               <div className={classes.fullFromWrap}>
-                <CreateSupportController>
+                <CreateMailController>
                   {(data) => {
-                    const {createSupport, loading} = data;
+                    const {createMail, loading} = data;
                     return (
                       <div className={classes.form}>
                         <Title
@@ -210,14 +209,20 @@ function Contact(props) {
                         />
                         <ValidatorForm
                           onSubmit={() => {
-                            createSupport({
+                            createMail({
                               variables: {
                                 input:{
-                                  name: values.name,
-                                  email: values.email,
-                                  phone: values.phone,
-                                  message: values.message,
-                                  appId: "3e005e83-7aea-4ca0-8c03-d3d3daaf8227"
+                                  from: {
+                                    name: values.name,
+                                    surname: null,
+                                    email: values.email,
+                                    phone: values.phone,
+                                  },
+                                  subject: `Message from ${values.name} via website`,
+                                  text: values.message,
+                                  app: {
+                                    id: app.id
+                                  }
                                 }
                               }
                             }).then(res => {
@@ -296,7 +301,7 @@ function Contact(props) {
                       </div>
                     )
                   }}
-                </CreateSupportController>
+                </CreateMailController>
                 
               </div>
             </Paper>

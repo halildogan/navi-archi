@@ -24,7 +24,7 @@ function Contact(props) {
         </title>
       </Head>
       <div className={classes.mainWrap}>
-        <ContactFrm />
+        <ContactFrm {...props}/>
       </div>
     </Fragment>
   );

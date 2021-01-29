@@ -1,21 +1,17 @@
-FROM node:alpine
+# pull official base image
+FROM node:13.12.0-alpine
 
-RUN mkdir -p /usr/src/app
-ENV PORT 3000
+# set working directory
+WORKDIR /app
 
-WORKDIR /usr/src/app
+# install app dependencies
+COPY package.json yarn.lock ./
+RUN yarn install
 
-COPY package.json /usr/src/app
-COPY yarn.lock /usr/src/app
+COPY . ./
+# add app
 
-# Production use node instead of root
-# USER node
+RUN yarn run build
 
-RUN yarn install --production
-
-COPY . /usr/src/app
-
-RUN yarn build
-
-EXPOSE 3000
-CMD [ "yarn", "start" ]
+# start app
+CMD ["yarn", "dev"] 

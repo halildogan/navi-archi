@@ -202,12 +202,7 @@ function Footer(props) {
             className={classes.selectLang}
             input={<OutlinedInput labelWidth={200} name="lang" id="outlined-lang-simple" />}
           >
-            <MenuItem value="en">English</MenuItem>
-            <MenuItem value="de">Deutsch</MenuItem>
-            <MenuItem value="ar">العربيّة</MenuItem>
-            <MenuItem value="id">Bahasa Indonesia</MenuItem>
-            <MenuItem value="pt">Português</MenuItem>
-            <MenuItem value="zh">简体中文</MenuItem>
+            {app.metas ? app.metas.map(lan => <MenuItem value={lan.language}>{lan.language}</MenuItem>) : <MenuItem value="en">English</MenuItem>}
           </Select>
         </Grid>
       </Grid>

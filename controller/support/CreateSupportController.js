@@ -6,11 +6,7 @@ const CreateSupportController = ({
     children
 }) => {
     const client = useApolloClient();
-    const [createSupport, {loading, error}] = useMutation(MUTATION_CREATE_SUPPORT,{
-        
-    })
-    if(loading) return null;
-    if(error) console.log("error: ", error.message);
+    const [createSupport, {loading, error}] = useMutation(MUTATION_CREATE_SUPPORT)
     return children({
         createSupport,
         loading
