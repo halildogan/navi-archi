@@ -58,18 +58,20 @@ function Landing(props) {
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
-  const { onToggleDark, onToggleDir } = props;
+  const { onToggleDark, onToggleDir, app } = props;
+  console.log("landing props: ", props)
   return (
     <React.Fragment>
       <Head>
         <title>
-          { brand.architect.name }
+          { app.meta.title }
           &nbsp; - Home Page
         </title>
       </Head>
       <CssBaseline />
       <div className={classes.mainWrap}>
         <Header
+          app={app}
           onToggleDark={onToggleDark}
           onToggleDir={onToggleDir}
         />
@@ -81,7 +83,7 @@ function Landing(props) {
             <Services />
           </section>
           <section id="project" className={isMobile ? classes.spaceTopShort : classes.spaceTop}>
-            <Project />
+            <Project app={app}/>
           </section>
           <section id="featured" className={isMobile ? classes.spaceTopShort : classes.spaceTop}>
             <Featured />
@@ -111,7 +113,7 @@ function Landing(props) {
           <section id="subscribe" className={classes.spaceTopShort}>
             <Subscribe />
           </section>
-          <Footer toggleDir={onToggleDir} />
+          <Footer app={app} toggleDir={onToggleDir} />
         </main>
         <Hidden mdDown>
           <PageNav />

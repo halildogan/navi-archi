@@ -21,9 +21,31 @@ import '../vendors/page-transition.css';
 import '../vendors/slick/slick.css';
 import '../vendors/slick/slick-theme.css';
 
-import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloProvider, useQuery, gql } from '@apollo/react-hooks';
 
 import {client} from "../lib/apollo";
+
+const QUERY_APP = gql`
+  query appQuery($id: String) {
+    app(id: $id) {
+      id
+      meta {
+        id
+        title
+        keywords
+        description
+      }
+      metas {
+        id
+        language
+      }
+      status {
+        id
+        path
+      }
+    }
+  }
+`
 
 let themeType = 'light';
 if (typeof Storage !== 'undefined') { // eslint-disable-line
@@ -31,11 +53,35 @@ if (typeof Storage !== 'undefined') { // eslint-disable-line
 }
 
 function MyApp(props) {
-  const [loading, setLoading] = useState(0);
+  return (
+    <div>
+      <ApolloProvider client={client}>
+            <MainWrap {...props}/>
+        </ApolloProvider>
+    </div>
+  );
+}
+
+const MainWrap = (props) => {
+  const {
+    router,
+    pageProps,
+    Component,
+  } = props; // eslint-disable-line
+
+  const {loading: appLoading, error, data} = useQuery(QUERY_APP, {
+    variables: {
+      id: "26972e49-7b52-43f7-82f0-ce17895059d3"
+    }
+  })
   const [theme, setTheme] = useState({
     ...appTheme('greenLeaf', themeType),
     direction: i18n.language === 'ar' ? 'rtl' : 'ltr'
   });
+  const [loading, setLoading] = useState(0);
+
+  const muiTheme = createMuiTheme(theme);
+ 
 
   useEffect(() => {
     // Set layout direction
@@ -58,15 +104,6 @@ function MyApp(props) {
     }
   }, []);
 
-  const toggleDarkTheme = () => {
-    const newPaletteType = theme.palette.type === 'light' ? 'dark' : 'light';
-    localStorage.setItem('luxiTheme', theme.palette.type === 'light' ? 'dark' : 'light');
-    setTheme({
-      ...appTheme('greenLeaf', newPaletteType),
-      direction: theme.direction,
-    });
-  };
-
   const toggleDirection = dir => {
     document.dir = dir;
     setTheme({
@@ -78,36 +115,46 @@ function MyApp(props) {
     });
   };
 
-  const muiTheme = createMuiTheme(theme);
-  const { Component, pageProps, router } = props; // eslint-disable-line
+  const toggleDarkTheme = () => {
+    const newPaletteType = theme.palette.type === 'light' ? 'dark' : 'light';
+    localStorage.setItem('luxiTheme', theme.palette.type === 'light' ? 'dark' : 'light');
+    setTheme({
+      ...appTheme('greenLeaf', newPaletteType),
+      direction: theme.direction,
+    });
+  };
+
+
   const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
+
   return (
-    <div>
-    <ApolloProvider client={client}>
-        <StylesProvider jss={jss}>
-          <ThemeProvider theme={muiTheme}>
-            <CssBaseline />
-            <LoadingBar
-              height={0}
-              color={theme.palette.primary.light}
-              progress={loading}
-              className="top-loading-bar"
-            />
-            <div id="main-wrap">
-              <PageTransition timeout={300} classNames="page-fade-transition">
+    <StylesProvider jss={jss}>
+      <ThemeProvider theme={muiTheme}>
+        <CssBaseline />
+        <LoadingBar
+          height={0}
+          color={theme.palette.primary.light}
+          progress={loading}
+          className="top-loading-bar"
+        />
+        <div id="main-wrap">
+          <PageTransition timeout={300} classNames="page-fade-transition">
+            {
+              appLoading ? <p>l</p> : (
                 <Component
+                  app={data && data.app}
                   {...pageProps}
                   onToggleDark={toggleDarkTheme}
                   onToggleDir={toggleDirection}
                   key={router.route}
                 />
-              </PageTransition>
-            </div>
-          </ThemeProvider>
-        </StylesProvider>
-      </ApolloProvider>
-    </div>
-  );
+              )
+            }
+          </PageTransition>
+        </div>
+      </ThemeProvider>
+    </StylesProvider>
+  )
 }
 
 MyApp.propTypes = {

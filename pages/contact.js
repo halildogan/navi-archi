@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Contact() {
+function Contact(props) {
   const classes = useStyles();
   return (
     <Fragment>

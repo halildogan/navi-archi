@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
+import {Scrollbars} from "react-custom-scrollbars";
 import Drawer from '@material-ui/core/Drawer';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
@@ -11,7 +12,8 @@ import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import { useText } from '../../theme/common';
 import useStyles from './cards-style';
-import ProjectCard from './Project';
+import ProjectDetail from './ProjectDetail';
+import ProjectInformation from "./ProjectInformation"
 
 
 function TabPanel(props) {
@@ -43,6 +45,7 @@ export default function General(props) {
   const theme = useTheme();
   const text = useText();
   const {
+    item,
     img,
     title,
     desc
@@ -111,10 +114,14 @@ export default function General(props) {
             onChangeIndex={handleChangeIndex}
           >
             <TabPanel value={value} index={0} dir={theme.direction}>
-              <ProjectCard />
+              <Scrollbars style={{ width: "100%", height: 650 }}>
+                <ProjectDetail item={item}/>
+              </Scrollbars>
             </TabPanel>
             <TabPanel value={value} index={1} dir={theme.direction}>
-              Item Two
+              <Scrollbars style={{ width: "100%", height: 650 }}>
+                <ProjectInformation item={item}/>
+              </Scrollbars>
             </TabPanel>
           </SwipeableViews>
         </div>

@@ -60,6 +60,9 @@ function Settings(props) {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
   const { invert, t } = props;
+
+  console.log("i18n: ", i18n)
+  console.log(" props: ", props)
   return (
     <div className={classes.setting}>
       <IconButton
@@ -129,19 +132,19 @@ function Settings(props) {
             </ListSubheader>
           )}
         >
-          {i18n.options.allLanguages && i18n.options.allLanguages.map(val => (
+          {props.app.metas && props.app.metas.map(val => (
             <ListItem
-              key={val}
+              key={val.language}
               role={undefined}
               dense
               button
-              onClick={() => handleChangeLang(val)}
+              onClick={() => handleChangeLang(val.language)}
             >
               <ListItemIcon>
-                <i className={val} />
+                <i className={val.language} />
               </ListItemIcon>
-              <ListItemText primary={t('common:' + val)} />
-              {i18n.language === val && (
+              <ListItemText primary={t('common:' + val.language)} />
+              {i18n.language === val.language && (
                 <ListItemSecondaryAction>
                   <CheckIcon color="primary" />
                 </ListItemSecondaryAction>

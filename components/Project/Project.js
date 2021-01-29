@@ -1,4 +1,7 @@
 import React, { useRef, useEffect } from 'react';
+
+import {gql, useQuery} from "@apollo/react-hooks"
+
 import PropTypes from 'prop-types';
 import Container from '@material-ui/core/Container';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -13,6 +16,47 @@ import Title from '../Title';
 import GeneralCard from '../Cards/General';
 import useStyle from './project-style';
 
+const QUERY_CONTENT_PROJECTS = gql`
+  query contentsQuery($app: selectApp!) {
+    contents(app: $app) {
+      id
+      meta {
+        id
+        language
+        title
+        tags
+        keywords
+        description
+        text
+      }
+      image {
+        id
+        url
+      }
+      users {
+        id
+        name
+        surname
+      }
+      images {
+        id
+        name
+        url
+      }
+      type {
+        id
+        path
+      }
+      status {
+        id
+        path
+        meta {
+          title
+        }
+      }
+    }
+  }
+`
 const projectData = [
   {
     img: imgAPI.architect[0],
@@ -48,7 +92,7 @@ const projectData = [
 
 function Project(props) {
   const slider = useRef(null);
-  const { t } = props;
+  const { t, app } = props;
 
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
@@ -83,7 +127,14 @@ function Project(props) {
       }
     }]
   };
-  
+
+  const {loading, error, data} = useQuery(QUERY_CONTENT_PROJECTS, {
+    variables: {
+      app: {
+        id: app.id
+      }
+    }
+  })
   useEffect(() => {
     if (theme.direction === 'rtl') {
       const lastSlide = Math.floor(projectData.length - 2);
@@ -112,11 +163,12 @@ function Project(props) {
                 <div />
               </div>
             )}
-            {projectData.map((item, index) => (
+            {data && data.contents.filter(co => co.type.path === "content:type:project").map((item, index) => (
               <div key={index.toString()} className={classes.item}>
                 <GeneralCard
-                  img={item.img}
-                  title={item.title}
+                  item={item}
+                  img={item.image && item.image.url}
+                  title={item.meta && item.meta.title}
                 />
               </div>
             ))}

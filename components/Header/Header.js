@@ -57,7 +57,8 @@ function Header(props) {
     onToggleDark,
     onToggleDir,
     invert,
-    t
+    t,
+    app
   } = props;
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
@@ -147,7 +148,7 @@ function Header(props) {
                   )}
                 </nav>
                 <nav className={classes.navMenu}>
-                  <Settings toggleDark={onToggleDark} toggleDir={onToggleDir} invert={invert} />
+                  <Settings app={app} toggleDark={onToggleDark} toggleDir={onToggleDir} invert={invert} />
                 </nav>
               </div>
             </Grid>
