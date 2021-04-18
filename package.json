@@ -9,8 +9,8 @@
 		"property",
 		"house"
 	],
-	"author": "Luxi Theme",
-	"license": "Envato",
+	"author": "halil dogan",
+	"license": "lapadi",
 	"main": "index.js",
 	"private": true,
 	"scripts": {
@@ -34,6 +34,7 @@
 		"babel-eslint": "^10.0.1",
 		"babel-plugin-root-import": "^6.4.1",
 		"clsx": "^1.0.4",
+		"cors": "^2.8.5",
 		"eslint-plugin-react-hooks": "^1.7.0",
 		"express": "^4.17.1",
 		"google-maps-react": "^2.0.6",
