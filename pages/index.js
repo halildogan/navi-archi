@@ -111,7 +111,7 @@ function Landing(props) {
             */
           }
           <section id="subscribe" className={classes.spaceTopShort}>
-            <Subscribe />
+            <Subscribe app={app}/>
           </section>
           <Footer app={app} toggleDir={onToggleDir} />
         </main>

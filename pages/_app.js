@@ -53,6 +53,7 @@ if (typeof Storage !== 'undefined') { // eslint-disable-line
 }
 
 function MyApp(props) {
+  console.log("myapp page props : ", props)
   return (
     <div>
       <ApolloProvider client={client}>
@@ -124,6 +125,9 @@ const MainWrap = (props) => {
     });
   };
 
+  const mutateData = (() => {
+    return data?.app
+  })();
 
   const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
@@ -142,7 +146,7 @@ const MainWrap = (props) => {
             {
               appLoading ? <p>l</p> : (
                 <Component
-                  app={data && data.app}
+                  app={mutateData}
                   {...pageProps}
                   onToggleDark={toggleDarkTheme}
                   onToggleDir={toggleDirection}

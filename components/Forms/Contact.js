@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 import {gql, useMutation} from "@apollo/react-hooks";
+import {MUTATION_CREATE_MAIL} from "../../controller/mail/Mail";
 
 import Button from '@material-ui/core/Button';
 import Hidden from '@material-ui/core/Hidden';
@@ -35,7 +36,6 @@ import { withTranslation } from '../../i18n';
 import useStyles from './form-style';
 import CrossParallax from '../Parallax/Cross';
 import Title from '../Title';
-import CreateMailController from "../../controller/mail/CreateMailController";
 
 
 function BubleMark() {
@@ -50,19 +50,19 @@ function BubleMark() {
           <Grid item sm={6} xs={12}>
             <Typography>
               <PhoneIcon className={classes.icon} />
-              +98 765 432 10
+              +1 416 818 4292
             </Typography>
           </Grid>
           <Grid item sm={6} xs={12}>
             <Typography>
               <EmailIcon className={classes.icon} />
-              hello@luxi.com
+              hello@navi.archi
             </Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography>
               <LocationIcon className={classes.icon} />
-              Lorem ipsum street Block C - Vestibullum Building
+              Toronto, ON
             </Typography>
           </Grid>
         </Grid>
@@ -137,9 +137,52 @@ function Contact(props) {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [values, setValues] = useState(initialState);
 
-  const [openNotif, setNotif] = useState(false);
+  const [notify, setNotif] = useState({
+    show: false,
+    message: ''
+  });
 
   const [check, setCheck] = useState(false);
+
+  const [createMail, {loading, error}] = useMutation(MUTATION_CREATE_MAIL)
+
+  const handleSubmit = async () => {
+    await createMail({
+      variables: {
+        input:{
+          from: {
+            name: values.name,
+            surname: null,
+            email: values.email,
+            phone: values.phone,
+          },
+          subject: `Message from ${values.name} via website`,
+          text: values.message,
+          app: {
+            id: app.id
+          }
+        }
+      }
+    }).then(({data, errors}) => {
+      if (errors) handleError(errors[0])
+      if (data?.createMail) handleSuccess(data)
+    }).catch(err => handleError(err))
+  }
+
+  const handleSuccess = (data) => {
+    setNotif({
+      show: true,
+      message: "Message Sent"
+    });
+    setValues(initialState)
+  }
+
+  const handleError = (err) => {
+    setNotif({
+      show: true,
+      message: err.message
+    })
+  }
 
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
@@ -147,10 +190,6 @@ function Contact(props) {
 
   const handleCheck = event => {
     setCheck(event.target.checked);
-  };
-
-  const handleSubmit = () => {
-    
   };
 
   const handleClose = () => {
@@ -167,13 +206,13 @@ function Contact(props) {
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         key="top right"
-        open={openNotif}
+        open={notify.show}
         autoHideDuration={4000}
         onClose={handleClose}
         ContentProps={{
           'aria-describedby': 'message-id',
         }}
-        message={<span id="message-id">Message Sent</span>}
+        message={<span id="message-id">{notify.message}</span>}
       />
       <Hidden mdUp>
         <div className={clsx(classes.logo, classes.logoHeader)}>
@@ -198,111 +237,82 @@ function Contact(props) {
             </Hidden>
             <Paper className={clsx(classes.formBox, 'fragment-fadeUp')}>
               <div className={classes.fullFromWrap}>
-                <CreateMailController>
-                  {(data) => {
-                    const {createMail, loading} = data;
-                    return (
-                      <div className={classes.form}>
-                        <Title
-                          head="Contact Us"
-                          desc={t('common:contact_subtitle')}
+                <div className={classes.form}>
+                  <Title
+                    head="Contact Us"
+                    desc={t('common:contact_subtitle')}
+                  />
+                  <ValidatorForm
+                    onSubmit={handleSubmit}
+                    onError={errors => console.log(errors)}
+                  >
+                    <Grid container spacing={6}>
+                      <Grid item xs={12}>
+                        <TextValidator
+                          className={classes.input}
+                          label={t('common:form_name')}
+                          onChange={handleChange('name')}
+                          name="Name"
+                          value={values.name}
+                          validators={['required']}
+                          errorMessages={['this field is required']}
                         />
-                        <ValidatorForm
-                          onSubmit={() => {
-                            createMail({
-                              variables: {
-                                input:{
-                                  from: {
-                                    name: values.name,
-                                    surname: null,
-                                    email: values.email,
-                                    phone: values.phone,
-                                  },
-                                  subject: `Message from ${values.name} via website`,
-                                  text: values.message,
-                                  app: {
-                                    id: app.id
-                                  }
-                                }
-                              }
-                            }).then(res => {
-                              setNotif(true);
-                              setValues(initialState)
-                            }).catch(error => console.log("error: ",error));
-                          }}
-                          onError={errors => console.log(errors)}
-                        >
-                          <Grid container spacing={6}>
-                            <Grid item xs={12}>
-                              <TextValidator
-                                className={classes.input}
-                                label={t('common:form_name')}
-                                onChange={handleChange('name')}
-                                name="Name"
-                                value={values.name}
-                                validators={['required']}
-                                errorMessages={['this field is required']}
-                              />
-                            </Grid>
-                            <Grid item xs={12}>
-                              <TextValidator
-                                className={classes.input}
-                                label={t('common:form_email')}
-                                onChange={handleChange('email')}
-                                name="Email"
-                                value={values.email}
-                                validators={['required', 'isEmail']}
-                                errorMessages={['this field is required', 'email is not valid']}
-                              />
-                            </Grid>
-                            <Grid item xs={12}>
-                              <TextValidator
-                                className={classes.input}
-                                label={t('common:form_phone')}
-                                onChange={handleChange('phone')}
-                                name="Phone"
-                                value={values.phone}
-                              />
-                            </Grid>
-                            <Grid item xs={12}>
-                              <TextValidator
-                                multiline
-                                rows="6"
-                                className={classes.input}
-                                label={t('common:form_message')}
-                                onChange={handleChange('message')}
-                                name="Message"
-                                value={values.message}
-                              />
-                            </Grid>
-                          </Grid>
-                          <FormControlLabel
-                            className={classes.checkArea}
-                            control={
-                              <Checkbox checked={check} onChange={(e) => handleCheck(e)} color="primary" value="check" />
-                            }
-                            label={(
-                              <span className={text.paragraph}>
-                                {t('common:form_terms')}
-                                <br />
-                                <a href="#">
-                                  {t('common:form_privacy')}
-                                </a>
-                              </span>
-                            )}
-                          />
-                          <div className={classes.btnArea}>
-                            <Button disabled={!check || !values.name || !values.email} variant="contained" fullWidth={isMobile} type="submit" color="primary" size="large">
-                              {t('common:form_send')}
-                              <SendIcon className={classes.rightIcon} />
-                            </Button>
-                          </div>
-                        </ValidatorForm>
-                      </div>
-                    )
-                  }}
-                </CreateMailController>
-                
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextValidator
+                          className={classes.input}
+                          label={t('common:form_email')}
+                          onChange={handleChange('email')}
+                          name="Email"
+                          value={values.email}
+                          validators={['required', 'isEmail']}
+                          errorMessages={['this field is required', 'email is not valid']}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextValidator
+                          className={classes.input}
+                          label={t('common:form_phone')}
+                          onChange={handleChange('phone')}
+                          name="Phone"
+                          value={values.phone}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextValidator
+                          multiline
+                          rows="6"
+                          className={classes.input}
+                          label={t('common:form_message')}
+                          onChange={handleChange('message')}
+                          name="Message"
+                          value={values.message}
+                        />
+                      </Grid>
+                    </Grid>
+                    <FormControlLabel
+                      className={classes.checkArea}
+                      control={
+                        <Checkbox checked={check} onChange={(e) => handleCheck(e)} color="primary" value="check" />
+                      }
+                      label={(
+                        <span className={text.paragraph}>
+                          {t('common:form_terms')}
+                          <br />
+                          <a href="#">
+                            {t('common:form_privacy')}
+                          </a>
+                        </span>
+                      )}
+                    />
+                    <div className={classes.btnArea}>
+                      <Button disabled={!check || !values.name || !values.email} variant="contained" fullWidth={isMobile} type="submit" color="primary" size="large">
+                        {t('common:form_send')}
+                        <SendIcon className={classes.rightIcon} />
+                      </Button>
+                    </div>
+                  </ValidatorForm>
+                </div>
               </div>
             </Paper>
           </Grid>

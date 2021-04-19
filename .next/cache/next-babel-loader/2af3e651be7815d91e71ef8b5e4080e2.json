@@ -1,1 +1,0 @@
-{"ast":null,"code":"import { gql } from \"@apollo/react-hooks\";\nexport const MUTATION_CREATE_SUPPORT = gql`\n    mutation createSupportMutation($input: createSupportInput!){\n        createSupport(input: $input)\n    }\n`;","map":null,"metadata":{},"sourceType":"module"}

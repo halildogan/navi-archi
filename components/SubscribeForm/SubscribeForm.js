@@ -1,35 +1,75 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
-import Snackbar from '@material-ui/core/Snackbar';
+import {useMutation} from "@apollo/react-hooks";
+import {MUTATION_CREATE_APP_USER} from "../../controller/app";
+
+import {Button, Container, Typography, Paper, TextField, Snackbar} from '@material-ui/core';
 import { Parallax } from 'react-parallax';
+
 import imgAPI from '../../public/images/imgAPI';
 import { useText } from '../../theme/common';
 import { withTranslation } from '../../i18n';
 import useStyles from './subscribe-style';
 
-import SubscriptionController from "../../controller/support/SubscriptionController";
-
 function SubscribeForm(props) {
   const classes = useStyles();
   const text = useText();
-  const { t } = props;
+  const { t, app } = props;
   const [value, setValue] = useState('');
 
-  const [openNotif, setNotif] = useState(false);
+  const [notify, setNotif] = useState({
+    show: false,
+    message: ''
+  });
+
+  const [createAppUser, {loading, error}] = useMutation(MUTATION_CREATE_APP_USER)
 
   function handleChange(event) {
     setValue(event.target.value);
   }
 
-  const handleClose = () => {
-    setNotif(false);
-  };
+  const handleClose = () =>  setNotif({ show: false });
   
+  const handleSubmit = async () => {
+      await createAppUser({
+        variables: {
+          input: {
+            app: {
+              id: app.id
+            },
+            apps: [{
+              id: app.id
+            }],
+            user: {
+              email: value
+            },
+            role: {
+              id: '28d269c7-2e99-489f-b193-738b8292ede1'
+            },
+            notification: true
+          }
+        }
+      }).then(({data, errors}) => {
+        if (errors) handleErrors(errors[0]);
+        if (data?.createAppUser) handleSuccess({
+          message: "Thank you! You subscribed."
+        })
+      }).catch(error => handleErrors(error))
+  }
+  const handleErrors = (err) => {
+    setNotif({
+      show: true,
+      message: err.message
+    })
+  }
+  const handleSuccess = (success) => {
+    setNotif({
+      show: true,
+      message: success.message
+    })
+    setValue("")
+  }
+  console.log("subscribe page props : ", props)
   return (
     <div className={classes.root}>
       <Parallax
@@ -43,13 +83,13 @@ function SubscribeForm(props) {
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         key="top right"
-        open={openNotif}
+        open={notify.show}
         autoHideDuration={4000}
         onClose={handleClose}
         ContentProps={{
           'aria-describedby': 'message-id',
         }}
-        message={<span id="message-id">Thank you! You subscribed.</span>}
+        message={<span id="message-id">{notify.message}</span>}
       />
       <Container fixed>
         <Paper className={classes.form}>
@@ -59,38 +99,19 @@ function SubscribeForm(props) {
           <Typography className={text.subtitle2}>
             {t('common:architect-landing.subscribe_subtitle')}
           </Typography>
-          <SubscriptionController>
-            {(data) => {
-              const {createSupport, loading} = data;
-              return (
-                <form>
-                  <TextField
-                    className={classes.field}
-                    fullWidth
-                    label={t('common:architect-landing.subscribe_input')}
-                    placeholder={t('common:architect-landing.subscribe_input')}
-                    onChange={(e) => handleChange(e)}
-                    value={value}
-                  />
-                  <Button onClick={() => {
-                    createSupport({
-                      variables: {
-                        input: {
-                          email: value,
-                          appId: "3e005e83-7aea-4ca0-8c03-d3d3daaf8227"
-                        }
-                      }
-                    }).then(res => {
-                      setNotif(true);
-                      setValue("")
-                    }).catch(error => console.log(error))
-                  }} disabled={!value} variant="contained" size="large" color="secondary" className={classes.button}>
-                    {t('common:architect-landing.subscribe_subscribe')}
-                  </Button>
-                </form>
-              )
-            }}
-          </SubscriptionController>
+            <form>
+              <TextField
+                className={classes.field}
+                fullWidth
+                label={t('common:architect-landing.subscribe_input')}
+                placeholder={t('common:architect-landing.subscribe_input')}
+                onChange={(e) => handleChange(e)}
+                value={value}
+              />
+              <Button onClick={handleSubmit} disabled={!value} variant="contained" size="large" color="secondary" className={classes.button}>
+                {t('common:architect-landing.subscribe_subscribe')}
+              </Button>
+            </form>
         </Paper>
       </Container>
     </div>
@@ -98,7 +119,8 @@ function SubscribeForm(props) {
 }
 
 SubscribeForm.propTypes = {
-  t: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired,
+  app: PropTypes.object.isRequired
 };
 
 export default withTranslation(['architect-landing'])(SubscribeForm);

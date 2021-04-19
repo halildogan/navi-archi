@@ -1,1 +1,0 @@
-{"ast":null,"code":"export { default } from './Title';","map":{"version":3,"sources":["/Users/halildogan/Desktop/hd-dev.nosync/zer/zer.archi/components/Title/index.js"],"names":["default"],"mappings":"AAAA,SAASA,OAAT,QAAwB,SAAxB","sourcesContent":["export { default } from './Title';\n"]},"metadata":{},"sourceType":"module"}
