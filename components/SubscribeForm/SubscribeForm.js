@@ -69,7 +69,6 @@ function SubscribeForm(props) {
     })
     setValue("")
   }
-  console.log("subscribe page props : ", props)
   return (
     <div className={classes.root}>
       <Parallax

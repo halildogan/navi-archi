@@ -85,13 +85,12 @@ function Header(props) {
           fixed && classes.fixed,
           invert && classes.invert,
           openDrawer && classes.openDrawer
-        )}
-      >
+        )}>
         <Container fixed={!isMobile}>
           <Grid container>
             <Grid item sm={2} xs={7}>
               <div className={classes.logo}>
-                { isMobile && (
+                {isMobile && (
                   <IconButton
                     onClick={handleOpenDrawer}
                     className={clsx('hamburger hamburger--spring', classes.mobileMenu, openDrawer && 'is-active')}
@@ -122,9 +121,10 @@ function Header(props) {
                   {isDesktop && (
                     <Scrollspy
                       items={navMenu}
-                      currentClassName="active"
-                    >
-                      {menuList.map(item => (
+                      currentClassName="active">
+                      {menuList.map(item => {
+                        console.log("item: ", item)
+                        return (
                         <li key={item.id.toString()}>
                           {invert ? (
                             // eslint-disable-next-line
@@ -138,7 +138,7 @@ function Header(props) {
                             </Button>
                           )}
                         </li>
-                      ))}
+                      )})}
                       <li>
                         <Button href={routeLink.architect.contact}>
                           {t('common:architect-landing.header_contact')}

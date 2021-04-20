@@ -43,6 +43,7 @@ const useStyles = makeStyles(theme => ({
       paddingTop: sectionMargin(6),
     }
   },
+  
   spaceTopShort: {
     paddingTop: sectionMargin(theme.spacing() / 2)
   },
@@ -59,14 +60,11 @@ function Landing(props) {
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
   const { onToggleDark, onToggleDir, app } = props;
-  console.log("landing props: ", props)
   return (
     <React.Fragment>
       <Head>
-        <title>
-          { app.meta.title }
-          &nbsp; - Home Page
-        </title>
+        <title>{ app.meta.title } &nbsp; - Home Page</title>
+        {/* <meta key="description" content={app.meta.description} /> */}
       </Head>
       <CssBaseline />
       <div className={classes.mainWrap}>
@@ -92,24 +90,20 @@ function Landing(props) {
             <div className={isTablet ? classes.spaceTopShort : classes.spaceTop}>
               <About />
             </div>
-            {
-              /* 
+            {/* 
               <div className={classes.spaceTopShort}>
                 <Team />
               </div>
-              */
-            }
+            */}
             <div>
               <Counter />
             </div>
           </section>
-          {
-            /* 
+          {/* 
             <div id="blog" className={classes.spaceTopShort}>
               <Blog />
             </div>
-            */
-          }
+          */}
           <section id="subscribe" className={classes.spaceTopShort}>
             <Subscribe app={app}/>
           </section>

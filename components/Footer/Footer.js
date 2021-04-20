@@ -101,7 +101,10 @@ function Footer(props) {
     }
   }
 
-  console.log("update: ")
+  const handleRoute = (e) => {
+    console.log("e:", e)
+  }
+
   return (
     <Container maxWidth="lg" component="footer" className={classes.footer}>
       <Grid container spacing={4}>
@@ -113,7 +116,7 @@ function Footer(props) {
             </Typography>
           </div>
           <Typography color="textPrimary" className={classes.footerDesc} gutterBottom>
-            Nam posuere accumsan porta. Integer sed ante tincidunt tincidunt sit amet sed libero.
+            Navi Archi is a fully licensed Architect firm, providing full services for residential, commercial, institutional, and industrial projects. Our firm offers design, research, development, technical support, and construction administration for buildings.
           </Typography>
           <Copyright />
         </Grid>
@@ -129,7 +132,7 @@ function Footer(props) {
                     <ul>
                       {footer.description.map((item, index) => (
                         <li key={item}>
-                          <Link href={footer.link[index]} variant="subtitle1" color="textSecondary">
+                          <Link onClick={() => handleRoute(footer.link[index])} href={footer.link[index]} variant="subtitle1" color="textSecondary">
                             {item}
                           </Link>
                         </li>
@@ -142,16 +145,14 @@ function Footer(props) {
                     square
                     classes={{
                       root: classes.accordionRoot,
-                    }}
-                  >
+                    }}>
                     <ExpansionPanelSummary
                       expandIcon={<ExpandMoreIcon className={classes.accordionIcon} />}
                       aria-controls="panel1a-content"
                       id="panel1a-header"
                       classes={{
                         content: classes.accordionContent,
-                      }}
-                    >
+                      }}>
                       <strong>
                         {footer.title}
                       </strong>
@@ -160,7 +161,7 @@ function Footer(props) {
                       <ul>
                         {footer.description.map((item, index) => (
                           <li key={item}>
-                            <Link href={footer.link[index]} variant="subtitle1" color="textSecondary">
+                            <Link onClick={() => handleRoute(footer.link[index])} href={footer.link[index]} variant="subtitle1" color="textSecondary">
                               {item}
                             </Link>
                           </li>
@@ -200,9 +201,8 @@ function Footer(props) {
               </InputAdornment>
             )}
             className={classes.selectLang}
-            input={<OutlinedInput labelWidth={200} name="lang" id="outlined-lang-simple" />}
-          >
-            {app.metas ? app.metas.map(lan => <MenuItem value={lan.language}>{lan.language}</MenuItem>) : <MenuItem value="en">English</MenuItem>}
+            input={<OutlinedInput labelWidth={200} name="lang" id="outlined-lang-simple" />}>
+              {app.metas ? app.metas.map(lan => <MenuItem key={lan.language} value={lan.language}>{lan.language}</MenuItem>) : <MenuItem value="en">English</MenuItem>}
           </Select>
         </Grid>
       </Grid>

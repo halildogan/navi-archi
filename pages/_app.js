@@ -53,7 +53,6 @@ if (typeof Storage !== 'undefined') { // eslint-disable-line
 }
 
 function MyApp(props) {
-  console.log("myapp page props : ", props)
   return (
     <div>
       <ApolloProvider client={client}>
@@ -72,7 +71,7 @@ const MainWrap = (props) => {
 
   const {loading: appLoading, error, data} = useQuery(QUERY_APP, {
     variables: {
-      id: "26972e49-7b52-43f7-82f0-ce17895059d3"
+      id: process.env.CLIENT_ID
     }
   })
   const [theme, setTheme] = useState({
@@ -143,17 +142,15 @@ const MainWrap = (props) => {
         />
         <div id="main-wrap">
           <PageTransition timeout={300} classNames="page-fade-transition">
-            {
-              appLoading ? <p>l</p> : (
-                <Component
-                  app={mutateData}
-                  {...pageProps}
-                  onToggleDark={toggleDarkTheme}
-                  onToggleDir={toggleDirection}
-                  key={router.route}
-                />
-              )
-            }
+            { appLoading && !mutateData ? <p>l</p> : (
+              <Component
+                app={mutateData}
+                {...pageProps}
+                onToggleDark={toggleDarkTheme}
+                onToggleDir={toggleDirection}
+                key={router.route}
+              />
+            )}
           </PageTransition>
         </div>
       </ThemeProvider>

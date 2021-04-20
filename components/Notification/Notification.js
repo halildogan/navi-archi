@@ -20,6 +20,7 @@ function Notification(props) {
   const handleClose = () => {
     setOpen(false);
   };
+
   return (
     <Snackbar
       TransitionComponent={TransitionUp}
@@ -38,6 +39,7 @@ function Notification(props) {
         classes={{
           action: classes.action
         }}
+        role="tabpanel"
         action={(
           <Button key="undo" variant="contained" color="secondary" className={classes.button} onClick={handleClose}>
             {t('common:accept')}

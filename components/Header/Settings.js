@@ -61,8 +61,6 @@ function Settings(props) {
   const id = open ? 'simple-popover' : undefined;
   const { invert, t } = props;
 
-  console.log("i18n: ", i18n)
-  console.log(" props: ", props)
   return (
     <div className={classes.setting}>
       <IconButton
