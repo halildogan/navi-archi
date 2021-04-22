@@ -36,7 +36,7 @@ function Counter(props) {
                   <i className="ion-ios-people-outline" />
                   <div className={classes.text}>
                     <Typography variant="h4" className={text.title}>
-                      {countup(20, play)}
+                      {countup(6, play)}
                     </Typography>
                     <Typography variant="h6" className={text.subtitle2}>
                       {t('common:architect-landing.counter_expert')}
@@ -50,7 +50,7 @@ function Counter(props) {
                     <i className="ion-ios-briefcase-outline" />
                     <div className={classes.text}>
                       <Typography variant="h4" className={text.title}>
-                        {countup(123, play)}
+                        {countup(24, play)}
                       </Typography>
                       <Typography variant="h6" className={text.subtitle2}>
                         {t('common:architect-landing.counter_completed')}
@@ -64,7 +64,7 @@ function Counter(props) {
                   <i className="ion-ios-heart-outline" />
                   <div className={classes.text}>
                     <Typography variant="h4" className={text.title}>
-                      {countup(89, play)}
+                      {countup(21, play)}
                     </Typography>
                     <Typography variant="h6" className={text.subtitle2}>
                       {t('common:architect-landing.counter_happy')}

@@ -8,7 +8,6 @@ module.exports = withImages(
       return {
         '/': { page: '/' },
         '/contact': { page: '/contact' },
-        '/blank-page': { page: '/blank-page' },
       };
     },
     publicRuntimeConfig: {

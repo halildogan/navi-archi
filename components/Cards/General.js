@@ -14,6 +14,7 @@ import { useText } from '../../theme/common';
 import useStyles from './cards-style';
 import ProjectDetail from './ProjectDetail';
 import ProjectInformation from "./ProjectInformation"
+import { withTranslation } from '../../i18n';
 
 
 function TabPanel(props) {
@@ -40,7 +41,7 @@ function a11yProps(index) {
   };
 }
 
-export default function General(props) {
+const  General = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const text = useText();
@@ -48,7 +49,8 @@ export default function General(props) {
     item,
     img,
     title,
-    desc
+    desc,
+    t
   } = props;
 
 
@@ -102,8 +104,8 @@ export default function General(props) {
                       variant="fullWidth"
                       aria-label="action tabs example"
                     >
-                      <Tab label="Detail" {...a11yProps(0)} />
-                      <Tab label="Information" {...a11yProps(1)} />
+                      <Tab label={t("common:architect-landing.detail")} {...a11yProps(0)} />
+                      <Tab label={t("common:architect-landing.information")} {...a11yProps(1)} />
                     </Tabs>
                 </div>
             </div>
@@ -139,7 +141,7 @@ export default function General(props) {
           {desc}
         </Typography>
         <Button onClick={toggleDrawer("right", true)} className={classes.button} color="secondary" size="small" variant="contained">
-          See Detail
+          {t('common:architect-landing.see_detail')}
         </Button>
       </Paper>
       <div style={{
@@ -160,4 +162,7 @@ General.propTypes = {
   img: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   desc: PropTypes.string.isRequired,
+  t: PropTypes.func.isRequired
 };
+
+export default withTranslation(['architect-landing'])(General)

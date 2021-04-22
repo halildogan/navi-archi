@@ -13,6 +13,7 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
+import { withTranslation } from '../../i18n';
 
 
 const itemData = [
@@ -104,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ProjectInformation({item}) {
+const ProjectInformation = ({t, item}) => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -116,19 +117,19 @@ export default function ProjectInformation({item}) {
                     <div className={classes.details}>
                         <CardContent className={classes.content}>
                             <Typography component="h5" variant="h5">
-                                Galery 
+                              {t("common:architect-landing.galery")}
                             </Typography>
-                            <GridList cellHeight={200} spacing={1} className={classes.gridList}>
+                            <GridList cellHeight={160} spacing={40} cols={2} className={classes.gridList}>
                                 {item.images && item.images.map((image) => (
-                                <GridListTile key={image.url} cols={image.featured ? 2 : 1} rows={image.featured ? 2 : 1}>
-                                    <img src={image.url} alt={image.name} style={{height: "100%"}}/>
-                                    <GridListTileBar
-                                        title={image.name}
-                                        titlePosition="top"
-                                        actionPosition="left"
-                                        className={classes.titleBar}
-                                    />
-                                </GridListTile>
+                                  <GridListTile key={image.url} cols={1} rows={1}>
+                                      <img src={image.url} alt={image.name} />
+                                      <GridListTileBar
+                                          title={image.name}
+                                          titlePosition="top"
+                                          actionPosition="left"
+                                          className={classes.titleBar}
+                                      />
+                                  </GridListTile>
                                 ))}
                             </GridList>
                         </CardContent>
@@ -142,7 +143,7 @@ export default function ProjectInformation({item}) {
                     <div className={classes.details}>
                     <CardContent className={classes.content}>
                         <Typography component="h5" variant="h5">
-                            Tags   
+                          {t("common:architect-landing.tags")}
                         </Typography>
                         <Typography variant="subtitle1" color="textSecondary">
                             {item.meta.tags && item.meta.tags.map(tag => <span style={{marginRight: 5}}>{tag}</span>)}
@@ -158,7 +159,7 @@ export default function ProjectInformation({item}) {
                     <div className={classes.details}>
                     <CardContent className={classes.content}>
                         <Typography component="h5" variant="h5">
-                        Keywords   
+                          {t("common:architect-landing.keywords")}
                         </Typography>
                         <Typography variant="subtitle1" color="textSecondary">
                         {item.meta.keywords && item.meta.keywords.map(keyword => <span style={{marginRight: 5}}>{keyword}</span>)}
@@ -174,7 +175,7 @@ export default function ProjectInformation({item}) {
                     <div className={classes.details}>
                     <CardContent className={classes.content}>
                         <Typography component="h5" variant="h5">
-                            Description
+                          {t("common:architect-landing.description")}
                         </Typography>
                         <Typography variant="subtitle1" color="textSecondary">
                             {item.meta.description}
@@ -190,7 +191,7 @@ export default function ProjectInformation({item}) {
                     <div className={classes.details}>
                         <CardContent className={classes.content}>
                         <Typography component="h5" variant="h5">
-                            Text
+                          {t("common:architect-landing.text")}
                         </Typography>
                         <Typography variant="subtitle1" color="textSecondary">
                             <div dangerouslySetInnerHTML={{__html: item.meta.text}} />
@@ -203,3 +204,5 @@ export default function ProjectInformation({item}) {
     </div>
   );
 }
+
+export default withTranslation(['architect-landing'])(ProjectInformation)

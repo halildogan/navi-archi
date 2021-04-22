@@ -116,7 +116,7 @@ function Featured(props) {
                     <PlayIcon />
                   </IconButton>
                 </Paper>
-                <Paper className={classes.item}>
+                {/* <Paper className={classes.item}>
                   <img src={imgAPI.architect[6]} alt="cover" />
                   <IconButton className={classes.playBtn} onClick={() => handleClickOpen('ZGn8kSV9gAA')}>
                     <PlayIcon />
@@ -127,7 +127,7 @@ function Featured(props) {
                   <IconButton className={classes.playBtn} onClick={() => handleClickOpen('85V_u_R0zxM')}>
                     <PlayIcon />
                   </IconButton>
-                </Paper>
+                </Paper> */}
               </Carousel>
             </div>
           </Grid>

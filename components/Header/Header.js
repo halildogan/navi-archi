@@ -123,7 +123,6 @@ function Header(props) {
                       items={navMenu}
                       currentClassName="active">
                       {menuList.map(item => {
-                        console.log("item: ", item)
                         return (
                         <li key={item.id.toString()}>
                           {invert ? (

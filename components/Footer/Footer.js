@@ -20,6 +20,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Link from '@material-ui/core/Link';
 import IconButton from '@material-ui/core/IconButton';
 import { i18n } from '../../i18n';
+import { withTranslation } from '../../i18n';
 import logo from '../../public/images/navi-archi-logo.svg';
 import brand from '../../public/text/brand';
 import useStyles from './footer-style';
@@ -42,23 +43,18 @@ function Copyright() {
 const footers = [
   {
     title: 'Company',
-    description: ['Team', 'History', 'Contact us', 'Locations'],
-    link: ['#team', '#history', '#contact-us', '#locations'],
-  },
-  {
-    title: 'Resources',
-    description: ['Resource', 'Resource name', 'Another resource', 'Final resource'],
-    link: ['#resource', '#resource-name', '#another-resource', '#final-resource'],
+    description: ['Contact us', 'Locations'],
+    link: ['contact', 'locations'],
   },
   {
     title: 'Legal',
-    description: ['Privacy policy', 'Terms of use'],
-    link: ['#privacy-policy', '#terms-of-use'],
+    description: ['Privacy policy', 'Terms and use'],
+    link: ['privacy-policy', 'terms-and-use'],
   },
 ];
 
 function Footer(props) {
-  const {app} = props
+  const {t, app} = props
   const [ctn, setCtn] = useState(null);
   const classes = useStyles();
   const theme = useTheme();
@@ -105,10 +101,21 @@ function Footer(props) {
     console.log("e:", e)
   }
 
+  const handleClickSocial = (e) => {
+    const fb = "https://www.facebook.com/Navi-Archi-103300845239492";
+    const tw = "https://twitter.com/NaviArchi";
+    const ig = "https://www.instagram.com/navi.archi/";
+    const li = "https://www.linkedin.com/company/navi-archi";
+    if (e === "fb") window.open(fb, '_blank');
+    if (e === "tw") window.open(tw, '_blank');
+    if (e === "ig") window.open(ig, '_blank');
+    if (e === "li") window.open(li, '_blank');
+  }
+
   return (
     <Container maxWidth="lg" component="footer" className={classes.footer}>
       <Grid container spacing={4}>
-        <Grid item xs={12} md={3}>
+        <Grid item xs={12} md={4}>
           <div className={classes.logo}>
             <img src={logo} alt="logo" />
             <Typography variant="h6" color="textPrimary">
@@ -116,11 +123,11 @@ function Footer(props) {
             </Typography>
           </div>
           <Typography color="textPrimary" className={classes.footerDesc} gutterBottom>
-            Navi Archi is a fully licensed Architect firm, providing full services for residential, commercial, institutional, and industrial projects. Our firm offers design, research, development, technical support, and construction administration for buildings.
+            {t('common:architect-landing.footer_desc')}
           </Typography>
           <Copyright />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={5}>
           <Grid container spacing={4} justify="space-evenly">
             {footers.map(footer => (
               <Grid item xs={12} md={3} key={footer.title} className={classes.siteMapItem}>
@@ -176,16 +183,16 @@ function Footer(props) {
         </Grid>
         <Grid item xs={12} md={3}>
           <div className={classes.socmed}>
-            <IconButton aria-label="FB" className={classes.margin} size="small">
-              <i className="ion-social-twitter" />
-            </IconButton>
-            <IconButton aria-label="TW" className={classes.margin} size="small">
+            <IconButton onClick={() => handleClickSocial("fb")} aria-label="FB" className={classes.margin} size="small">
               <i className="ion-social-facebook" />
             </IconButton>
-            <IconButton aria-label="IG" className={classes.margin} size="small">
+            <IconButton onClick={() => handleClickSocial("tw")} aria-label="TW" className={classes.margin} size="small">
+              <i className="ion-social-twitter" />
+            </IconButton>
+            <IconButton onClick={() => handleClickSocial("ig")} aria-label="IG" className={classes.margin} size="small">
               <i className="ion-social-instagram" />
             </IconButton>
-            <IconButton aria-label="LI" className={classes.margin} size="small">
+            <IconButton onClick={() => handleClickSocial("li")} aria-label="LI" className={classes.margin} size="small">
               <i className="ion-social-linkedin" />
             </IconButton>
           </div>
@@ -212,10 +219,11 @@ function Footer(props) {
 
 Footer.propTypes = {
   toggleDir: PropTypes.func,
+  t: PropTypes.func.isRequired
 };
 
 Footer.defaultProps = {
   toggleDir: () => {},
 };
 
-export default Footer;
+export default withTranslation(['architect-landing'])(Footer);

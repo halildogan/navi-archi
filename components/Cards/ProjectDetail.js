@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
+import { withTranslation } from '../../i18n';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,19 +36,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ProjectCard({item}) {
+const ProjectCard = ({t, item}) => {
   const classes = useStyles();
   const theme = useTheme();
-
   return (
     <div>
       <div>
         <Card className={classes.root}>
           <div className={classes.details}>
             <CardContent className={classes.content}>
-         
               <Typography component="h5" variant="h5">
-              Project 
+                {t("common:architect-landing.project")}
               </Typography>
               <Typography variant="subtitle1" color="textSecondary">
                 {item.meta.title}
@@ -56,40 +55,38 @@ export default function ProjectCard({item}) {
           </div>
         </Card>
       </div>
-      <div style={{
-        marginTop: 20
-      }}>
-      <Card className={classes.root}>
-        <div className={classes.details}>
-          <CardContent className={classes.content}>
-           
-            <Typography component="h5" variant="h5">
-              Status   
-            </Typography>
-            <Typography variant="subtitle1" color="textSecondary">
-              {item.status && item.status.meta.title || "..."}
-            </Typography>
-          </CardContent>
-        </div>
-      </Card>
-      </div>
-      {
-        item.users && (
-          <div style={{marginTop: 20}}>
-            <Card className={classes.root}>
-              <div className={classes.details}>
-                <CardContent className={classes.content}>
-                  <Typography component="h5" variant="h5">
-                  Teams
-                  </Typography>
-                  {item.users.map(user => <Avatar alt={user.name} src={user.avatar && user.avatar.url} />)}
-                </CardContent>
-              </div>
-            </Card>
+      {item.status && (
+      <div style={{ marginTop: 20 }}>
+        <Card className={classes.root}>
+          <div className={classes.details}>
+            <CardContent className={classes.content}>
+              <Typography component="h5" variant="h5">
+                {t("common:architect-landing.status")}
+              </Typography>
+              <Typography variant="subtitle1" color="textSecondary">
+                {item.status?.meta?.title || "..."}
+              </Typography>
+            </CardContent>
           </div>
-        )
-      }
-      
+        </Card>
+        </div>
+      )}
+      {item.users && (
+        <div style={{marginTop: 20}}>
+          <Card className={classes.root}>
+            <div className={classes.details}>
+              <CardContent className={classes.content}>
+                <Typography component="h5" variant="h5">
+                  {t("common:architect-landing.teams")}
+                </Typography>
+                {item.users?.map(user => <Avatar alt={user.name} src={user.avatar?.url} />)}
+              </CardContent>
+            </div>
+          </Card>
+        </div>
+      )}
     </div>
   );
 }
+
+export default withTranslation(['architect-landing'])(ProjectCard);

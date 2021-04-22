@@ -95,9 +95,9 @@ function Landing(props) {
                 <Team />
               </div>
             */}
-            <div>
+            {/* <div>
               <Counter />
-            </div>
+            </div> */}
           </section>
           {/* 
             <div id="blog" className={classes.spaceTopShort}>

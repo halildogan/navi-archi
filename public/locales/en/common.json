@@ -8,7 +8,7 @@
   "error_without_status": "An error occurred on the server",
   "contact_title": "Free Project Quote",
   "contact_title2": "Say Hello to Us",
-  "contact_subtitle": "Do you have any questions? Are you ready to reduce cost and create new revenue? Or you simply want to say hi? Drop us a message.",
+  "contact_subtitle": "Do you have any questions? Or you simply want to say hi? Drop us a message.",
   "form_name": "What is your name? *",
   "form_email": "What it your email? *",
   "form_phone": "What is your phone number?",
@@ -85,6 +85,20 @@
     "subscribe_title": "Stay in touch",
     "subscribe_subtitle": "Subscribe to our newsletter and stay updated on the latest developments and special offers!",
     "subscribe_input": "Enter your email address",
-    "subscribe_subscribe": "Subscribe"
+    "subscribe_subscribe": "Subscribe",
+    "footer_desc": "Navi Archi is a fully licensed Architect firm, providing full services for residential, commercial, institutional, and industrial projects. Our firm offers design, research, development, technical support, and construction administration for buildings.",
+    "see_detail": "See Detail",
+    "detail": "Detail",
+    "information": "Information",
+    "project": "Project",
+    "status": "Status",
+    "teams": "Teams",
+    "galery": "Galery",
+    "tags": "Tags",
+    "keywords": "keywords",
+    "description": "Description",
+    "office_title": "Our Office",
+    "office_head": "Head Quarter",
+    "office_branch": "Branch Office"
   }
 }

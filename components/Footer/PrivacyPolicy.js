@@ -36,6 +36,7 @@ import { withTranslation } from '../../i18n';
 import useStyles from './form-style';
 import CrossParallax from '../Parallax/Cross';
 import Title from '../Title';
+import {privacyPolicyText} from "./data";
 
 
 function BubleMark() {
@@ -129,7 +130,7 @@ const initialState = {
   message: ''
 }
 
-function Contact(props) {
+function PrivacyPolicy(props) {
   const classes = useStyles();
   const text = useText();
   const { t, app } = props;
@@ -231,7 +232,7 @@ function Contact(props) {
         </IconButton>
         <Grid container>
           <Grid item lg={1} xs={12} />
-          <Grid item lg={5} xs={12} className={classes.wrapDeco}>
+          <Grid item lg={11} xs={12} className={classes.wrapDeco}>
             <Hidden mdDown>
               <div className={classes.frmDeco} />
             </Hidden>
@@ -239,94 +240,13 @@ function Contact(props) {
               <div className={classes.fullFromWrap}>
                 <div className={classes.form}>
                   <Title
-                    head="Contact Us"
-                    desc={t('common:contact_subtitle')}
+                    head="Privacy Policy"
+                    // desc={t('common:contact_subtitle')}
                   />
-                  <ValidatorForm
-                    onSubmit={handleSubmit}
-                    onError={errors => console.log(errors)}
-                  >
-                    <Grid container spacing={6}>
-                      <Grid item xs={12}>
-                        <TextValidator
-                          className={classes.input}
-                          label={t('common:form_name')}
-                          onChange={handleChange('name')}
-                          name="Name"
-                          value={values.name}
-                          validators={['required']}
-                          errorMessages={['this field is required']}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextValidator
-                          className={classes.input}
-                          label={t('common:form_email')}
-                          onChange={handleChange('email')}
-                          name="Email"
-                          value={values.email}
-                          validators={['required', 'isEmail']}
-                          errorMessages={['this field is required', 'email is not valid']}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextValidator
-                          className={classes.input}
-                          label={t('common:form_phone')}
-                          onChange={handleChange('phone')}
-                          name="Phone"
-                          value={values.phone}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextValidator
-                          multiline
-                          rows="6"
-                          className={classes.input}
-                          label={t('common:form_message')}
-                          onChange={handleChange('message')}
-                          name="Message"
-                          value={values.message}
-                        />
-                      </Grid>
-                    </Grid>
-                    <FormControlLabel
-                      className={classes.checkArea}
-                      control={
-                        <Checkbox checked={check} onChange={(e) => handleCheck(e)} color="primary" value="check" />
-                      }
-                      label={(
-                        <span className={text.paragraph}>
-                          {t('common:form_terms')}
-                          <br />
-                          <a href="#">
-                            {t('common:form_privacy')}
-                          </a>
-                        </span>
-                      )}
-                    />
-                    <div className={classes.btnArea}>
-                      <Button disabled={!check || !values.name || !values.email} variant="contained" fullWidth={isMobile} type="submit" color="primary" size="large">
-                        {t('common:form_send')}
-                        <SendIcon className={classes.rightIcon} />
-                      </Button>
-                    </div>
-                  </ValidatorForm>
+                  {privacyPolicyText}
                 </div>
               </div>
             </Paper>
-          </Grid>
-          <Grid item lg={6} xs={12}>
-            <Hidden mdDown>
-              <Paper className={classes.map} elevation={10}>
-                <MapWithAMarker
-                  googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places}`}
-                  loadingElement={<div style={{ height: '100%' }} />}
-                  containerElement={<div style={{ height: '700px' }} />}
-                  mapElement={<div style={{ height: '100%' }} />}
-                />
-              </Paper>
-            </Hidden>
           </Grid>
         </Grid>
       </Container>
@@ -335,8 +255,8 @@ function Contact(props) {
 }
 
 
-Contact.propTypes = {
+PrivacyPolicy.propTypes = {
   t: PropTypes.func.isRequired
 };
 
-export default withTranslation(['common'])(Contact);
+export default withTranslation(['common'])(PrivacyPolicy);
