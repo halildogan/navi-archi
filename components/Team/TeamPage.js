@@ -31,7 +31,7 @@ import {
 import ReactWOW from 'react-wow';
 import { useText } from '../../theme/common';
 import brand from '../../public/text/brand';
-import logo from '../../public/images/architect-logo.svg';
+import logo from '../../public/images/navi-archi-logo.svg';
 import routeLink from '../../public/text/link';
 import { withTranslation } from '../../i18n';
 import useStyles from './form-style';

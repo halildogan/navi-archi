@@ -18,7 +18,7 @@ import Hidden from '@material-ui/core/Hidden';
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 
 import brand from '../../public/text/brand';
-import logo from '../../public/images/architect-logo.svg';
+import logo from '../../public/images/navi-archi-logo.svg';
 import routeLink from '../../public/text/link';
 import { withTranslation } from '../../i18n';
 import useStyles from './map-address-style';

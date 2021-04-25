@@ -2,10 +2,15 @@ version: "3.7"
 
 services:
   web-app:
+    image: navi-archi/navi-archi
+    container_name: navi-archi
+    env_file:
+      - .env
+      - .env.local
     build: .
     ports:
-      - 80:7006
-      - 443:7006
+      - ${PORT}:${PORT}
+      - ${PORT_SSL}:${PORT_SSL}
     volumes:
       # Required to sync file changes.
       - .:/app
@@ -13,4 +18,4 @@ services:
       - /app/node_modules
       # Required for next to do it's thing.
       - /app/.next
-    restart: unless-stopped
+    restart: "on-failure"
