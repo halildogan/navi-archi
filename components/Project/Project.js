@@ -131,7 +131,7 @@ function Project(props) {
   const {loading, error, data} = useQuery(QUERY_CONTENT_PROJECTS, {
     variables: {
       app: {
-        id: app.id
+        id: app?.id
       }
     }
   })
@@ -197,7 +197,8 @@ function Project(props) {
 }
 
 Project.propTypes = {
-  t: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired,
+  app: PropTypes.object
 };
 
 export default withTranslation(['architect-landing'])(Project);

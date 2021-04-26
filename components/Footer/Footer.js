@@ -71,7 +71,7 @@ function Footer(props) {
         label: "new-visit",
         ip: "127.0.0.1",
         app: {
-          id: app.id
+          id: app?.id
         }
       }
     }
@@ -209,7 +209,7 @@ function Footer(props) {
             )}
             className={classes.selectLang}
             input={<OutlinedInput labelWidth={200} name="lang" id="outlined-lang-simple" />}>
-              {app.metas ? app.metas.map(lan => <MenuItem key={lan.language} value={lan.language}>{lan.language}</MenuItem>) : <MenuItem value="en">English</MenuItem>}
+              {app && app.metas ? app.metas.map(lan => <MenuItem key={lan.language} value={lan.language}>{lan.language}</MenuItem>) : <MenuItem value="en">English</MenuItem>}
           </Select>
         </Grid>
       </Grid>
@@ -219,7 +219,8 @@ function Footer(props) {
 
 Footer.propTypes = {
   toggleDir: PropTypes.func,
-  t: PropTypes.func.isRequired
+  t: PropTypes.func.isRequired,
+  app: PropTypes.object
 };
 
 Footer.defaultProps = {

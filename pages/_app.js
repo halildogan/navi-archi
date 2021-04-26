@@ -8,6 +8,8 @@ import {
 } from '@material-ui/core/styles';
 import { create } from 'jss';
 import { PageTransition } from 'next-page-transitions';
+import DefaultErrorPage from 'next/error';
+
 import rtl from 'jss-rtl';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import LoadingBar from 'react-top-loading-bar';
@@ -54,34 +56,32 @@ if (typeof Storage !== 'undefined') { // eslint-disable-line
 
 function MyApp(props) {
   return (
-    <div>
       <ApolloProvider client={client}>
-            <MainWrap {...props}/>
-        </ApolloProvider>
-    </div>
+        <Qu {...props}/>
+      </ApolloProvider>
   );
 }
 
-const MainWrap = (props) => {
-  const {
-    router,
-    pageProps,
-    Component,
-  } = props; // eslint-disable-line
-
-  const {loading: appLoading, error, data} = useQuery(QUERY_APP, {
+const Qu = (props) => {
+  const { loading, data } = useQuery(QUERY_APP, {
     variables: {
-      id: process.env.CLIENT_ID
+      id: "26972e49-7b52-43f7-82f0-ce17895059d3"
     }
-  })
+  });
+  console.log("data: ", data)
+  if (!loading && !data) return <DefaultErrorPage statusCode={503} />;
+
+  return <MainWrap {...props} loading={loading} {...data} />;
+};
+
+
+function MainWrap(props) {
+
+  const [loading, setLoading] = useState(0);
   const [theme, setTheme] = useState({
     ...appTheme('greenLeaf', themeType),
     direction: i18n.language === 'ar' ? 'rtl' : 'ltr'
   });
-  const [loading, setLoading] = useState(0);
-
-  const muiTheme = createMuiTheme(theme);
- 
 
   useEffect(() => {
     // Set layout direction
@@ -104,6 +104,15 @@ const MainWrap = (props) => {
     }
   }, []);
 
+  const toggleDarkTheme = () => {
+    const newPaletteType = theme.palette.type === 'light' ? 'dark' : 'light';
+    localStorage.setItem('luxiTheme', theme.palette.type === 'light' ? 'dark' : 'light');
+    setTheme({
+      ...appTheme('greenLeaf', newPaletteType),
+      direction: theme.direction,
+    });
+  };
+
   const toggleDirection = dir => {
     document.dir = dir;
     setTheme({
@@ -115,47 +124,35 @@ const MainWrap = (props) => {
     });
   };
 
-  const toggleDarkTheme = () => {
-    const newPaletteType = theme.palette.type === 'light' ? 'dark' : 'light';
-    localStorage.setItem('luxiTheme', theme.palette.type === 'light' ? 'dark' : 'light');
-    setTheme({
-      ...appTheme('greenLeaf', newPaletteType),
-      direction: theme.direction,
-    });
-  };
-
-  const mutateData = (() => {
-    return data?.app
-  })();
-
+  const muiTheme = createMuiTheme(theme);
+  const { Component, pageProps, router, app } = props; // eslint-disable-line
   const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
-
   return (
-    <StylesProvider jss={jss}>
-      <ThemeProvider theme={muiTheme}>
-        <CssBaseline />
-        <LoadingBar
-          height={0}
-          color={theme.palette.primary.light}
-          progress={loading}
-          className="top-loading-bar"
-        />
-        <div id="main-wrap">
-          <PageTransition timeout={300} classNames="page-fade-transition">
-            { appLoading && !mutateData ? <p>l</p> : (
+    <div>
+      <StylesProvider jss={jss}>
+        <ThemeProvider theme={muiTheme}>
+          <CssBaseline />
+          <LoadingBar
+            height={0}
+            color={theme.palette.primary.light}
+            progress={loading}
+            className="top-loading-bar"
+          />
+          <div id="main-wrap">
+            <PageTransition timeout={300} classNames="page-fade-transition">
               <Component
-                app={mutateData}
+                app={app}
                 {...pageProps}
                 onToggleDark={toggleDarkTheme}
                 onToggleDir={toggleDirection}
                 key={router.route}
               />
-            )}
-          </PageTransition>
-        </div>
-      </ThemeProvider>
-    </StylesProvider>
-  )
+            </PageTransition>
+          </div>
+        </ThemeProvider>
+      </StylesProvider>
+    </div>
+  );
 }
 
 MyApp.propTypes = {

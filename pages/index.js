@@ -63,7 +63,7 @@ function Landing(props) {
   return (
     <React.Fragment>
       <Head>
-        <title>{ app.meta.title } &nbsp; - Home Page</title>
+        <title>{ app?.meta?.title } &nbsp; - Home Page</title>
         {/* <meta key="description" content={app.meta.description} /> */}
       </Head>
       <CssBaseline />

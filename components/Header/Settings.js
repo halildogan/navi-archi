@@ -130,7 +130,7 @@ function Settings(props) {
             </ListSubheader>
           )}
         >
-          {props.app.metas && props.app.metas.map(val => (
+          {props.app?.metas?.map(val => (
             <ListItem
               key={val.language}
               role={undefined}
@@ -160,6 +160,7 @@ Settings.propTypes = {
   toggleDir: PropTypes.func.isRequired,
   t: PropTypes.func.isRequired,
   invert: PropTypes.bool,
+  app: PropTypes.object
 };
 
 Settings.defaultProps = {
