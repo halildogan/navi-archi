@@ -10,6 +10,8 @@ import { create } from 'jss';
 import { PageTransition } from 'next-page-transitions';
 import DefaultErrorPage from 'next/error';
 
+import DefaultCoomingSoon from "./DefaultCoomingSoon"
+
 import rtl from 'jss-rtl';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import LoadingBar from 'react-top-loading-bar';
@@ -45,6 +47,10 @@ const QUERY_APP = gql`
         id
         path
       }
+      type {
+        id
+        path
+      }
     }
   }
 `
@@ -68,8 +74,11 @@ const Qu = (props) => {
       id: "26972e49-7b52-43f7-82f0-ce17895059d3"
     }
   });
-  console.log("data: ", data)
+
+
+  console.log("app: ", data)
   if (!loading && !data) return <DefaultErrorPage statusCode={503} />;
+
 
   return <MainWrap {...props} loading={loading} {...data} />;
 };
@@ -123,10 +132,11 @@ function MainWrap(props) {
       }
     });
   };
-
   const muiTheme = createMuiTheme(theme);
   const { Component, pageProps, router, app } = props; // eslint-disable-line
   const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
+
+  const mainte = true
   return (
     <div>
       <StylesProvider jss={jss}>
@@ -140,13 +150,14 @@ function MainWrap(props) {
           />
           <div id="main-wrap">
             <PageTransition timeout={300} classNames="page-fade-transition">
+              {mainte ? <DefaultCoomingSoon statusCode={503} /> : 
               <Component
                 app={app}
                 {...pageProps}
                 onToggleDark={toggleDarkTheme}
                 onToggleDir={toggleDirection}
                 key={router.route}
-              />
+              /> }
             </PageTransition>
           </div>
         </ThemeProvider>
