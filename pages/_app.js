@@ -10,7 +10,7 @@ import { create } from 'jss';
 import { PageTransition } from 'next-page-transitions';
 import DefaultErrorPage from 'next/error';
 
-import DefaultCoomingSoon from "./DefaultCoomingSoon"
+import DefaultComingSoon from "./DefaultComingSoon"
 
 import rtl from 'jss-rtl';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -150,7 +150,7 @@ function MainWrap(props) {
           />
           <div id="main-wrap">
             <PageTransition timeout={300} classNames="page-fade-transition">
-              {mainte ? <DefaultCoomingSoon statusCode={503} /> : 
+              {mainte ? <DefaultComingSoon statusCode={503} /> : 
               <Component
                 app={app}
                 {...pageProps}

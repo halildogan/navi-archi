@@ -39,7 +39,7 @@ class ErrorPage extends React.Component {
             </title>
           </Head>
           <div className={classes.dedicatedPage}>
-            <Cooming errorCode={errorCode} text={t('common:404')} />
+            <Coming errorCode={errorCode} text={t('common:404')} />
           </div>
         </Fragment>
       );
