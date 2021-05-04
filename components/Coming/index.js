@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import routeLink from '../../public/text/link';
 import useStyles from './error-style';
 
-function Cooming(props) {
+function Coming(props) {
   const classes = useStyles();
   const { errCode, text } = props;
   return (
@@ -23,7 +23,7 @@ function Cooming(props) {
           </Grid>
           <Grid item sm={7} xs={12}>
             <div className={classes.text}>
-              <Typography variant="h4">{"Cooming soon."}</Typography>
+              <Typography variant="h4">{"Coming soon."}</Typography>
               <Typography>
                 We do not provide services for now.
               </Typography>
@@ -35,14 +35,14 @@ function Cooming(props) {
   );
 }
 
-Cooming.propTypes = {
+Coming.propTypes = {
   errCode: PropTypes.string,
   text: PropTypes.string,
 };
 
-Cooming.defaultProps = {
+Coming.defaultProps = {
   errCode: '404',
   text: '',
 };
 
-export default Cooming;
+export default Coming;

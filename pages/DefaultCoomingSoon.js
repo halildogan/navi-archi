@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Head from 'next/head';
 import brand from '../public/text/brand';
-import Cooming from '../components/Cooming';
+import Coming from '../components/Coming';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { withTranslation } from '../i18n';
@@ -35,7 +35,7 @@ class ErrorPage extends React.Component {
           <Head>
             <title>
               { brand.architect.name }
-              &nbsp; - Cooming soon
+              &nbsp; - Coming soon
             </title>
           </Head>
           <div className={classes.dedicatedPage}>
