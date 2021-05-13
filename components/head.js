@@ -39,14 +39,14 @@ const HeadComponent = () => (
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" />
     {/*  Facebook */}
-    <meta property="author" content="luxi" />
+    <meta property="author" content="Halil Dogan" />
     <meta property="og:site_name" content="navi.archi" />
-    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale" content="en_CA" />
     <meta property="og:type" content="website" />
     {/*  Twitter */}
     <meta property="twitter:site" content="navi.archi" />
     <meta property="twitter:domain" content="navi.archi" />
-    <meta property="twitter:creator" content="luxi" />
+    <meta property="twitter:creator" content="Halil Dogan" />
     <meta property="twitter:card" content="summary" />
     <meta property="twitter:image:src" content="/images/architect-logo.png" />
     <meta property="og:url" content={brand.architect.url} />
