@@ -33,20 +33,22 @@ const HeadComponent = () => (
     <link rel="manifest" href="/favicons/manifest.json" />
     <meta name="msapplication-TileColor" content="#ffffff" />
     <meta name="msapplication-TileImage" content="/favicons/ms-icon-144x144.png" />
+
+    <meta name="copyright"content="navi.archi" />
     {/* PWA primary color */}
     <meta name="theme-color" content={theme.greenLeaf.palette.primary.main} />
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" />
     {/*  Facebook */}
-    <meta property="author" content="Halil Dogan" />
+    <meta property="author" content="Halil Dogan, hello@halildogan.ca" />
     <meta property="og:site_name" content="navi.archi" />
     <meta property="og:locale" content="en_CA" />
     <meta property="og:type" content="website" />
     {/*  Twitter */}
     <meta property="twitter:site" content="navi.archi" />
     <meta property="twitter:domain" content="navi.archi" />
-    <meta property="twitter:creator" content="Halil Dogan" />
+    <meta property="twitter:creator" content="Halil Dogan, hello@halildogan.ca" />
     <meta property="twitter:card" content="summary" />
     <meta property="twitter:image:src" content="/images/architect-logo.png" />
     <meta property="og:url" content={brand.architect.url} />
