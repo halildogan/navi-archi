@@ -49,7 +49,7 @@ const ProjectCard = ({t, item}) => {
                 {t("common:architect-landing.project")}
               </Typography>
               <Typography variant="subtitle1" color="textSecondary">
-                {item.meta.title}
+                {item?.meta?.title}
               </Typography>
             </CardContent>
           </div>

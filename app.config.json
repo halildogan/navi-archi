@@ -1,0 +1,22 @@
+{
+    "apps" : [
+      {
+        "name": "halildogan:navi_archi:prod",
+        "script": "npx",
+        "interpreter": "none",
+        "args": "yarn start",
+        "exec_mode": "cluster",
+        "instances" : 1,
+        "wait_ready": true,
+        "listen_timeout": 30000,
+        "env_production": {
+           "NODE_ENV": "production"
+        },
+        "env_development": {
+           "NODE_ENV": "development"
+        }
+      }
+    ]
+  }
+  
+  

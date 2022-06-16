@@ -137,7 +137,7 @@ const ProjectInformation = ({t, item}) => {
                 </Card>
             </div>
         )}
-        {item.meta.tags && (
+        {item.meta?.tags && (
             <div style={{marginTop: 20}}>
                 <Card className={classes.root}>
                     <div className={classes.details}>
@@ -146,14 +146,14 @@ const ProjectInformation = ({t, item}) => {
                           {t("common:architect-landing.tags")}
                         </Typography>
                         <Typography variant="subtitle1" color="textSecondary">
-                            {item.meta.tags && item.meta.tags.map(tag => <span style={{marginRight: 5}}>{tag}</span>)}
+                            {item.meta?.tags && item.meta?.tags.map(tag => <span style={{marginRight: 5}}>{tag}</span>)}
                         </Typography>
                     </CardContent>
                     </div>
                 </Card>
             </div>
         )}
-        {item.meta.keywords && (
+        {item.meta?.keywords && (
             <div style={{ marginTop: 20}}>
                 <Card className={classes.root}>
                     <div className={classes.details}>
@@ -162,14 +162,14 @@ const ProjectInformation = ({t, item}) => {
                           {t("common:architect-landing.keywords")}
                         </Typography>
                         <Typography variant="subtitle1" color="textSecondary">
-                        {item.meta.keywords && item.meta.keywords.map(keyword => <span style={{marginRight: 5}}>{keyword}</span>)}
+                        {item.meta?.keywords && item.meta?.keywords.map(keyword => <span style={{marginRight: 5}}>{keyword}</span>)}
                         </Typography>
                     </CardContent>
                     </div>
                 </Card>
             </div>
         )}
-        {item.meta.description && (
+        {item.meta?.description && (
             <div style={{ marginTop: 20}}>
                 <Card className={classes.root}>
                     <div className={classes.details}>
@@ -178,14 +178,14 @@ const ProjectInformation = ({t, item}) => {
                           {t("common:architect-landing.description")}
                         </Typography>
                         <Typography variant="subtitle1" color="textSecondary">
-                            {item.meta.description}
+                            {item.meta?.description}
                         </Typography>
                     </CardContent>
                     </div>
                 </Card>
             </div>
         )}
-        {item.meta.text && (
+        {item.meta?.text && (
             <div style={{marginTop: 20}}>
                 <Card className={classes.root}>
                     <div className={classes.details}>
@@ -194,7 +194,7 @@ const ProjectInformation = ({t, item}) => {
                           {t("common:architect-landing.text")}
                         </Typography>
                         <Typography variant="subtitle1" color="textSecondary">
-                            <div dangerouslySetInnerHTML={{__html: item.meta.text}} />
+                            <div dangerouslySetInnerHTML={{__html: item.meta?.text}} />
                         </Typography>
                         </CardContent>
                     </div>

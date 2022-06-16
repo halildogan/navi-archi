@@ -8,10 +8,7 @@ const next = require('next');
 const nextI18NextMiddleware = require('next-i18next/middleware').default;
 
 const nextI18next = require('./i18n');
-const ports = {
-  http: process.env.PORT || 7006,
-  https: process.env.PORT_SSL || 8006
-};
+
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
@@ -26,20 +23,10 @@ app.prepare().then(() => {
   server.use(cors());
 
   server.all('*', (req, res) => handle(req, res));
-  http.createServer(server).listen(ports.http, (err) => {
+  http.createServer(server).listen(process.env.PORT, (err) => {
     if (err) throw err;
-    console.log(`> Ready on http://localhost:${ports.http}`);
+    console.log(`> Ready on http://localhost:${process.env.PORT}`);
   });
-  if (process.env.NODE_ENV === 'production') {
-    const options = {
-      key: fs.readFileSync('/home/admin/conf/web/ssl.navi.archi.key'),
-      cert: fs.readFileSync('/home/admin/conf/web/ssl.navi.archi.crt'),
-    };
-    https.createServer(options, server).listen(ports.https, (err) => {
-      if (err) throw err;
-      console.log(`> Ready on http://localhost:${ports.https}`);
-    });
-  }
 }).catch((ex) => {
   console.error(ex.stack);
 });

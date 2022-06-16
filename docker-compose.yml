@@ -2,11 +2,10 @@ version: "3.7"
 
 services:
   web-app:
-    image: navi-archi/navi-archi
+    image: halildogan/navi-archi
     container_name: navi-archi
     env_file:
       - .env
-      - .env.local
     build: .
     ports:
       - ${PORT}:${PORT}

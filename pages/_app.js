@@ -136,7 +136,7 @@ function MainWrap(props) {
   const { Component, pageProps, router, app } = props; // eslint-disable-line
   const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
-  const mainte = true
+  const mainte = false
   return (
     <div>
       <StylesProvider jss={jss}>

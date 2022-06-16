@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
 import {gql, useQuery} from "@apollo/react-hooks"
 
@@ -17,41 +17,45 @@ import GeneralCard from '../Cards/General';
 import useStyle from './project-style';
 
 const QUERY_CONTENT_PROJECTS = gql`
-  query contentsQuery($app: selectApp!) {
-    contents(app: $app) {
-      id
-      meta {
-        id
-        language
-        title
-        tags
-        keywords
-        description
-        text
-      }
-      image {
-        id
-        url
-      }
-      users {
-        id
-        name
-        surname
-      }
-      images {
-        id
-        name
-        url
-      }
-      type {
-        id
-        path
-      }
-      status {
-        id
-        path
-        meta {
-          title
+  query contentsQuery($app: selectApp!, $filter: filterContent) {
+    contents(app: $app, filter: $filter) {
+      project {
+        list {
+          id
+          meta {
+            id
+            language
+            title
+            tags
+            keywords
+            description
+            text
+          }
+          image {
+            id
+            url
+          }
+          users {
+            id
+            name
+            surname
+          }
+          images {
+            id
+            name
+            url
+          }
+          type {
+            id
+            path
+          }
+          status {
+            id
+            path
+            meta {
+              title
+            }
+          }
         }
       }
     }
@@ -128,19 +132,39 @@ function Project(props) {
     }]
   };
 
+  const [state, setState] = useState({
+    projects: []
+  });
+  const handleState = (values) => {
+    setState((prev) => ({
+      ...prev,
+      ...values
+    }))
+  }
   const {loading, error, data} = useQuery(QUERY_CONTENT_PROJECTS, {
     variables: {
       app: {
         id: app?.id
-      }
+      },
+      filter: { project: { pagination: { page: 0, per: 10 } } }
     }
-  })
+  });
+
+
+  useEffect(() => {
+    handleState({
+      projects: data?.contents?.project?.list
+    })
+  }, [loading, data]);
+
   useEffect(() => {
     if (theme.direction === 'rtl') {
       const lastSlide = Math.floor(projectData.length - 2);
       slider.current.slickGoTo(lastSlide);
     }
   }, []);
+
+  console.log("data: ", data)
 
   return (
     <div className={classes.root}>
@@ -163,7 +187,7 @@ function Project(props) {
                 <div />
               </div>
             )}
-            {data && data.contents.filter(co => co.type.path === "content:type:project").map((item, index) => (
+            {state?.projects?.map((item, index) => (
               <div key={index.toString()} className={classes.item}>
                 <GeneralCard
                   item={item}
