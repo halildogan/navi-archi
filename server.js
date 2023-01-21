@@ -1,10 +1,9 @@
 const express = require('express');
 const http = require('http');
-const https = require('https');
-const fs = require('fs');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const next = require('next');
+const fs = require("fs");
 const nextI18NextMiddleware = require('next-i18next/middleware').default;
 
 const nextI18next = require('./i18n');
@@ -23,10 +22,13 @@ app.prepare().then(() => {
   server.use(cors());
 
   server.all('*', (req, res) => handle(req, res));
+
   http.createServer(server).listen(process.env.PORT, (err) => {
     if (err) throw err;
     console.log(`> Ready on http://localhost:${process.env.PORT}`);
   });
+  
+
 }).catch((ex) => {
   console.error(ex.stack);
 });

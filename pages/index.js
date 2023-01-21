@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import { useTheme, makeStyles } from '@material-ui/core/styles';
@@ -19,6 +19,8 @@ import Footer from '../components/Footer';
 import PageNav from '../components/PageNav';
 import Notification from '../components/Notification';
 import brand from '../public/text/brand';
+
+import { lapadi } from "../lib/lapadi";
 
 const sectionMargin = margin => (margin * 20);
 const useStyles = makeStyles(theme => ({
@@ -60,10 +62,57 @@ function Landing(props) {
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
   const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
   const { onToggleDark, onToggleDir, app } = props;
+
+  const [state, setState] = useState({
+    contents: null
+  });
+  const handleState = (values) => {
+    setState((prev) => ({
+      ...prev,
+      ...values
+    }))
+  }
+
+  useEffect(() => {
+    (async() => {
+      await lapadi.app.content.list({
+        category: {
+          pagination: { page: 0, per: 10 },
+          filter: {
+            status: {
+              path: ['active']
+            }
+          }
+        },
+        article: {
+          pagination: { page: 0, per: 10, },
+          filter: {
+            status: {
+              path: ['active']
+            }
+          }
+        },
+        project: { 
+          pagination: { page: 0, per: 10 },
+          filter: {
+            status: {
+              path: ['active']
+            }
+          } 
+        }
+      }).then(({data}) => {
+        handleState({
+          contents: data
+        })
+      })
+    })()
+  }, []);
+
+  console.log("index state: ", state)
   return (
     <React.Fragment>
       <Head>
-        <title>{ app?.meta?.title } &nbsp; - Home Page</title>
+        <title>Home Page&nbsp; - { app?.meta?.title }</title>
         {/* <meta key="description" content={app.meta.description} /> */}
       </Head>
       <CssBaseline />
@@ -78,10 +127,10 @@ function Landing(props) {
             <VideoBanner />
           </section>
           <section id="services" className={classes.spaceTopShort}>
-            <Services />
+            <Services project={[]} />
           </section>
           <section id="project" className={isMobile ? classes.spaceTopShort : classes.spaceTop}>
-            <Project app={app}/>
+            <Project app={app} project={state?.contents?.project} />
           </section>
           <section id="featured" className={isMobile ? classes.spaceTopShort : classes.spaceTop}>
             <Featured />

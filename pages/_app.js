@@ -24,65 +24,11 @@ import '../vendors/animate-extends.css';
 import '../vendors/page-transition.css';
 import '../vendors/slick/slick.css';
 import '../vendors/slick/slick-theme.css';
-
-import { ApolloProvider, useQuery, gql } from '@apollo/react-hooks';
-
-import {client} from "../lib/apollo";
-
-const QUERY_APP = gql`
-  query appQuery($id: String) {
-    app(id: $id) {
-      id
-      meta {
-        id
-        title
-        keywords
-        description
-      }
-      metas {
-        id
-        language
-      }
-      status {
-        id
-        path
-      }
-      type {
-        id
-        path
-      }
-    }
-  }
-`
-
+import { lapadi } from "../lib/lapadi";
 let themeType = 'light';
 if (typeof Storage !== 'undefined') { // eslint-disable-line
   themeType = localStorage.getItem('luxiTheme') || 'light';
 }
-
-function MyApp(props) {
-  return (
-      <ApolloProvider client={client}>
-        <Qu {...props}/>
-      </ApolloProvider>
-  );
-}
-
-const Qu = (props) => {
-  const { loading, data } = useQuery(QUERY_APP, {
-    variables: {
-      id: "26972e49-7b52-43f7-82f0-ce17895059d3"
-    }
-  });
-
-
-  console.log("app: ", data)
-  if (!loading && !data) return <DefaultErrorPage statusCode={503} />;
-
-
-  return <MainWrap {...props} loading={loading} {...data} />;
-};
-
 
 function MainWrap(props) {
 
@@ -91,9 +37,23 @@ function MainWrap(props) {
     ...appTheme('greenLeaf', themeType),
     direction: i18n.language === 'ar' ? 'rtl' : 'ltr'
   });
+  const [state, setState] = useState({
+    app: null,
+    error: false,
+    loading: false
+  });
+  const handleState = (values) => {
+    setState((prev) => ({
+      ...prev,
+      ...values
+    }))
+  }
 
   useEffect(() => {
     // Set layout direction
+    setLoading(100);
+
+   
     document.dir = i18n.language === 'ar' ? 'rtl' : 'ltr';
 
     // Remove preloader
@@ -102,15 +62,21 @@ function MainWrap(props) {
       preloader.remove();
     }
 
-    // Remove loading bar
-    setLoading(0);
-    setTimeout(() => { setLoading(100); }, 2000);
-
     // Refresh JSS in SSR
     const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles) {
       jssStyles.parentNode.removeChild(jssStyles);
-    }
+    };
+    
+    (async() => {
+      await lapadi.app.get().then( async ({data, errors}) => {
+        handleState({app:data});
+        setTimeout(() => {
+          setLoading(100);
+        }, 1500);
+    
+      }).catch(err =>  handleState({error:err}))
+    })()
   }, []);
 
   const toggleDarkTheme = () => {
@@ -133,10 +99,14 @@ function MainWrap(props) {
     });
   };
   const muiTheme = createMuiTheme(theme);
-  const { Component, pageProps, router, app } = props; // eslint-disable-line
+  const { Component, pageProps, router } = props; // eslint-disable-line
   const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
   const mainte = false
+
+  if (!loading &&  state.error) return <DefaultErrorPage statusCode={503} />;
+
+  console.log("app state: ", state)
   return (
     <div>
       <StylesProvider jss={jss}>
@@ -152,7 +122,7 @@ function MainWrap(props) {
             <PageTransition timeout={300} classNames="page-fade-transition">
               {mainte ? <DefaultComingSoon statusCode={503} /> : 
               <Component
-                app={app}
+                app={state.app}
                 {...pageProps}
                 onToggleDark={toggleDarkTheme}
                 onToggleDir={toggleDirection}
@@ -166,9 +136,9 @@ function MainWrap(props) {
   );
 }
 
-MyApp.propTypes = {
+MainWrap.propTypes = {
   Component: PropTypes.elementType.isRequired,
   pageProps: PropTypes.object.isRequired
 };
 
-export default appWithTranslation(MyApp);
+export default appWithTranslation(MainWrap);

@@ -1,7 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
 
-import {gql, useQuery} from "@apollo/react-hooks"
-
 import PropTypes from 'prop-types';
 import Container from '@material-ui/core/Container';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -16,51 +14,6 @@ import Title from '../Title';
 import GeneralCard from '../Cards/General';
 import useStyle from './project-style';
 
-const QUERY_CONTENT_PROJECTS = gql`
-  query contentsQuery($app: selectApp!, $filter: filterContent) {
-    contents(app: $app, filter: $filter) {
-      project {
-        list {
-          id
-          meta {
-            id
-            language
-            title
-            tags
-            keywords
-            description
-            text
-          }
-          image {
-            id
-            url
-          }
-          users {
-            id
-            name
-            surname
-          }
-          images {
-            id
-            name
-            url
-          }
-          type {
-            id
-            path
-          }
-          status {
-            id
-            path
-            meta {
-              title
-            }
-          }
-        }
-      }
-    }
-  }
-`
 const projectData = [
   {
     img: imgAPI.architect[0],
@@ -96,7 +49,7 @@ const projectData = [
 
 function Project(props) {
   const slider = useRef(null);
-  const { t, app } = props;
+  const { t, app, project } = props;
 
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
@@ -141,21 +94,11 @@ function Project(props) {
       ...values
     }))
   }
-  const {loading, error, data} = useQuery(QUERY_CONTENT_PROJECTS, {
-    variables: {
-      app: {
-        id: app?.id
-      },
-      filter: { project: { pagination: { page: 0, per: 10 } } }
-    }
-  });
-
 
   useEffect(() => {
-    handleState({
-      projects: data?.contents?.project?.list
-    })
-  }, [loading, data]);
+  
+    
+  }, []);
 
   useEffect(() => {
     if (theme.direction === 'rtl') {
@@ -163,8 +106,6 @@ function Project(props) {
       slider.current.slickGoTo(lastSlide);
     }
   }, []);
-
-  console.log("data: ", data)
 
   return (
     <div className={classes.root}>
@@ -187,7 +128,7 @@ function Project(props) {
                 <div />
               </div>
             )}
-            {state?.projects?.map((item, index) => (
+            {project?.list?.map((item, index) => (
               <div key={index.toString()} className={classes.item}>
                 <GeneralCard
                   item={item}

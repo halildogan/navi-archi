@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {useMutation} from "@apollo/react-hooks";
-import {MUTATION_CREATE_APP_USER} from "../../controller/app";
 
 import {Button, Container, Typography, Paper, TextField, Snackbar} from '@material-ui/core';
 import { Parallax } from 'react-parallax';
@@ -22,8 +20,6 @@ function SubscribeForm(props) {
     message: ''
   });
 
-  const [createAppUser, {loading, error}] = useMutation(MUTATION_CREATE_APP_USER)
-
   function handleChange(event) {
     setValue(event.target.value);
   }
@@ -31,30 +27,30 @@ function SubscribeForm(props) {
   const handleClose = () =>  setNotif({ show: false });
   
   const handleSubmit = async () => {
-      await createAppUser({
-        variables: {
-          input: {
-            app: {
-              id: app.id
-            },
-            apps: [{
-              id: app.id
-            }],
-            user: {
-              email: value
-            },
-            role: {
-              id: '28d269c7-2e99-489f-b193-738b8292ede1'
-            },
-            notification: true
-          }
-        }
-      }).then(({data, errors}) => {
-        if (errors) handleErrors(errors[0]);
-        if (data?.createAppUser) handleSuccess({
-          message: "Thank you! You subscribed."
-        })
-      }).catch(error => handleErrors(error))
+      // await createAppUser({
+      //   variables: {
+      //     input: {
+      //       app: {
+      //         id: app.id
+      //       },
+      //       apps: [{
+      //         id: app.id
+      //       }],
+      //       user: {
+      //         email: value
+      //       },
+      //       role: {
+      //         id: '28d269c7-2e99-489f-b193-738b8292ede1'
+      //       },
+      //       notification: true
+      //     }
+      //   }
+      // }).then(({data, errors}) => {
+      //   if (errors) handleErrors(errors[0]);
+      //   if (data?.createAppUser) handleSuccess({
+      //     message: "Thank you! You subscribed."
+      //   })
+      // }).catch(error => handleErrors(error))
   }
   const handleErrors = (err) => {
     setNotif({

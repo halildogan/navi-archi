@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
-import {gql, useMutation} from "@apollo/react-hooks";
-import {MUTATION_CREATE_MAIL} from "../../controller/mail/Mail";
-
 import Button from '@material-ui/core/Button';
 import Hidden from '@material-ui/core/Hidden';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -144,29 +141,27 @@ function Contact(props) {
 
   const [check, setCheck] = useState(false);
 
-  const [createMail, {loading, error}] = useMutation(MUTATION_CREATE_MAIL)
-
   const handleSubmit = async () => {
-    await createMail({
-      variables: {
-        input:{
-          from: {
-            name: values.name,
-            surname: null,
-            email: values.email,
-            phone: values.phone,
-          },
-          subject: `Message from ${values.name} via website`,
-          text: values.message,
-          app: {
-            id: app.id
-          }
-        }
-      }
-    }).then(({data, errors}) => {
-      if (errors) handleError(errors[0])
-      if (data?.createMail) handleSuccess(data)
-    }).catch(err => handleError(err))
+    // await createMail({
+    //   variables: {
+    //     input:{
+    //       from: {
+    //         name: values.name,
+    //         surname: null,
+    //         email: values.email,
+    //         phone: values.phone,
+    //       },
+    //       subject: `Message from ${values.name} via website`,
+    //       text: values.message,
+    //       app: {
+    //         id: app.id
+    //       }
+    //     }
+    //   }
+    // }).then(({data, errors}) => {
+    //   if (errors) handleError(errors[0])
+    //   if (data?.createMail) handleSuccess(data)
+    // }).catch(err => handleError(err))
   }
 
   const handleSuccess = (data) => {

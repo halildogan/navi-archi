@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import {useMutation, gql} from "@apollo/react-hooks"
-
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { useTheme } from '@material-ui/core/styles';
@@ -24,12 +22,6 @@ import { withTranslation } from '../../i18n';
 import logo from '../../public/images/navi-archi-logo.svg';
 import brand from '../../public/text/brand';
 import useStyles from './footer-style';
-
-const MUTATION_CREATE_VISIT = gql`
-  mutation createVisitMutation($input: createVisitInput!) {
-    createVisit(input: $input)
-  }
-`
 
 function Copyright() {
   return (
@@ -65,20 +57,22 @@ function Footer(props) {
     lang: 'en'
   });
 
-  const [createVisit, {loading, error}] = useMutation(MUTATION_CREATE_VISIT, {
-    variables: {
-      input: {
-        label: "new-visit",
-        ip: "127.0.0.1",
-        app: {
-          id: app?.id
-        }
-      }
-    }
-  })
-
   useEffect(() => {
-    createVisit()
+
+
+    // createVisit({
+    //   variables: {
+    //     input: {
+    //       label: "new-visit",
+    //       ip: "127.0.0.1",
+    //       app: {
+    //         id: app?.id
+    //       }
+    //     }
+    //   }
+    // })
+
+
     setValues({ lang: i18n.language });
     setCtn(document.getElementById('main-wrap'));
   }, []);
